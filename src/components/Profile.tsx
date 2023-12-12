@@ -32,7 +32,7 @@ export default function Profile() {
 
   const fetchProfile = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/user.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
           user_id: localStorage.getItem('motor_socmed'),
         },
@@ -52,7 +52,7 @@ export default function Profile() {
     e.preventDefault();
 
     axios
-      .put(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/register.php`, {
+      .put(`${import.meta.env.VITE_PROJECT_BIDDING}/register.php`, {
         ...user,
         profile_picture: image,
         user_id: localStorage.getItem('motor_socmed'),

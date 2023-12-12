@@ -29,7 +29,7 @@ export default function SendMessage() {
 
   const getMessageRecepient = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/message-fetch.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/message-fetch.php`, {
         params: {
           sender_id: userId,
           receiver_id: recepientIDNumber,
@@ -49,7 +49,7 @@ export default function SendMessage() {
     e.preventDefault();
 
     axios
-      .post(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/message.php`, {
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/message.php`, {
         sender_id: userId,
         receiver_id: recepientIDNumber,
         message_context: message,

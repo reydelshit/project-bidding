@@ -93,7 +93,7 @@ function YourPosts() {
 
   const fetchUserDetails = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/user.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
           user_id: localStorage.getItem('motor_socmed'),
         },
@@ -111,7 +111,7 @@ function YourPosts() {
 
   const fetchAllPosts = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/post.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/post.php`, {
         params: {
           user_id: localStorage.getItem('motor_socmed'),
         },
@@ -126,7 +126,7 @@ function YourPosts() {
   const handlePost = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/post.php`, {
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/post.php`, {
         user_id: localStorage.getItem('motor_socmed'),
         post_context,
         post_image,
@@ -145,7 +145,7 @@ function YourPosts() {
 
   const fetchALlComments = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/comment.php`)
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/comment.php`)
       .then((res) => {
         console.log(res.data, 'comments');
         setComments(res.data);
@@ -175,7 +175,7 @@ function YourPosts() {
 
   const handleDeletePost = (post_id: string) => {
     axios
-      .delete(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/post.php`, {
+      .delete(`${import.meta.env.VITE_PROJECT_BIDDING}/post.php`, {
         data: {
           post_id,
         },
@@ -199,7 +199,7 @@ function YourPosts() {
     setPostID(post_id);
 
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/post.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/post.php`, {
         params: {
           post_id: post_id,
         },
@@ -218,7 +218,7 @@ function YourPosts() {
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .put(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/post.php`, {
+      .put(`${import.meta.env.VITE_PROJECT_BIDDING}/post.php`, {
         post_id: postID,
         post_context,
         post_image,
@@ -236,7 +236,7 @@ function YourPosts() {
 
   const handleComment = (post_id: number, post_user_id: number) => {
     axios
-      .post(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/comment.php`, {
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/comment.php`, {
         user_id: localStorage.getItem('motor_socmed'),
         post_id: post_id,
         comment_content: comment,
@@ -258,7 +258,7 @@ function YourPosts() {
 
   const fetchUpvoteAndDownvote = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/like.php`)
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/like.php`)
       .then((res) => {
         console.log(res.data, 'upvote and downvote');
         setPostLike(res.data);
@@ -266,7 +266,7 @@ function YourPosts() {
   };
   const handleUpvote = (post_id: number, post_user_id: number) => {
     axios
-      .post(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/like.php`, {
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/like.php`, {
         user_id: localStorage.getItem('motor_socmed'),
         post_id: post_id,
         type: 'upvote',
@@ -281,7 +281,7 @@ function YourPosts() {
 
   const handleDownVote = (post_id: number, post_user_id: number) => {
     axios
-      .post(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/like.php`, {
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/like.php`, {
         user_id: localStorage.getItem('motor_socmed'),
         post_id: post_id,
         type: 'downvote',
@@ -296,7 +296,7 @@ function YourPosts() {
 
   const handleDeleteComment = (comment_id: string) => {
     axios
-      .delete(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/comment.php`, {
+      .delete(`${import.meta.env.VITE_PROJECT_BIDDING}/comment.php`, {
         data: {
           comment_id,
         },

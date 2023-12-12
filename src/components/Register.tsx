@@ -20,7 +20,7 @@ export default function Register() {
     e.preventDefault();
 
     axios
-      .post(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/register.php`, user)
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/register.php`, user)
       .then((res) => {
         console.log(res.data);
 

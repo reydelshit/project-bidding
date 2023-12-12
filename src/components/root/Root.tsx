@@ -17,8 +17,8 @@ export default function Root() {
   }
 
   return (
-    <div className="w-full border-2 relative">
-      <div className="flex border-2">
+    <div className="w-full relative">
+      <div className="flex ">
         <div className="w-full px-2">
           <MainContext.Provider
             value={{

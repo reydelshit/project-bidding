@@ -17,7 +17,7 @@ export default function Notification() {
   const getNotification = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_MOTOR_MARKETPLACE}/notification.php`,
+        `${import.meta.env.VITE_PROJECT_BIDDING}/notification.php`,
         {
           params: { receiver_id: userId },
         },

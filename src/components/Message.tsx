@@ -21,7 +21,7 @@ export default function Message() {
 
   const getRecepientMessage = async () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/message.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/message.php`, {
         params: { sender_id: userId },
       })
       .then((res) => {

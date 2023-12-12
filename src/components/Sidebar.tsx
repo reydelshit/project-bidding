@@ -10,11 +10,11 @@ import { FaHome } from 'react-icons/fa';
 import { MdOutlineNoteAlt } from 'react-icons/md';
 import { CiLogout } from 'react-icons/ci';
 export default function Sidebar({
-  setShowMotorInput,
-  showMotorInput,
+  setShowBiddingFormInput,
+  showBiddingFormInput,
 }: {
-  setShowMotorInput: any;
-  showMotorInput: boolean;
+  setShowBiddingFormInput: any;
+  showBiddingFormInput: boolean;
 }) {
   const user_id = localStorage.getItem('motor_socmed') as string;
   const [image, setImage] = useState('' as string);
@@ -59,11 +59,11 @@ export default function Sidebar({
     <div className="flex flex-col h-[80%] justify-between mt-[10rem] fixed left-0 p-5 w-[20rem] z-40 bg-white rounded-lg">
       <div>
         <div className="flex items-center my-4">
-          <img
+          {/* <img
             className="rounded-full w-[4rem] h-[4rem] object-cover cursor-pointer"
             src={image.length > 0 ? image : Default}
             alt=""
-          />
+          /> */}
           <div>
             <h1 className="font-bold text-2xl cursor-pointer hover:text-blue-500 ">
               {user.name}
@@ -78,13 +78,13 @@ export default function Sidebar({
         </Link>
         <h1
           className="w-full cursor-pointer hover:text-blue-500 font-bold flex py-3"
-          onClick={() => setShowMotorInput(!showMotorInput)}
+          onClick={() => setShowBiddingFormInput(!showBiddingFormInput)}
         >
           <MdEditNote className="w-[1.5rem] h-[1.5rem] mr-2" />{' '}
-          {showMotorInput ? 'Close' : 'Post Now'}
+          {showBiddingFormInput ? 'Close' : 'Post Project'}
         </h1>
 
-        <Link to={`/post/${user_id}`}>
+        <Link to={`/post/yourpost/${user_id}`}>
           <h1 className="w-full mt-2 cursor-pointer hover:text-blue-500 font-bold flex py-5">
             <MdOutlineNoteAlt className="w-[1.5rem] h-[1.5rem] mr-2" /> Your
             Posts

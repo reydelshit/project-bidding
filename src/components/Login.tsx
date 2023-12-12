@@ -18,7 +18,7 @@ export default function Login() {
     e.preventDefault();
 
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/login.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/login.php`, {
         params: loginDetails,
       })
       .then((res) => {

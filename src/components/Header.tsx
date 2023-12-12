@@ -20,7 +20,7 @@ export default function Header() {
 
   const fetchUserDetails = () => {
     axios
-      .get(`${import.meta.env.VITE_MOTOR_MARKETPLACE}/user.php`, {
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
           user_id: localStorage.getItem('motor_socmed'),
         },
@@ -54,7 +54,7 @@ export default function Header() {
         </Link>
 
         <p className="text-sm">
-          Welcome to Motor Connections where you can flex your motorcylce
+          Welcome to Project Bidding, a place where you can bid your project
         </p>
       </div>
 
