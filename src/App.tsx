@@ -88,16 +88,12 @@ function App() {
   });
   const [postLike, setPostLike] = useState<LikeType[]>([]);
 
-  const {
-    showMessage,
-    setShowMessage,
-    recepientIDNumber,
-    setRecepientIDNumber,
-  } = useContext(MainContext);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
-  };
+  // const {
+  //   showMessage,
+  //   setShowMessage,
+  //   recepientIDNumber,
+  //   setRecepientIDNumber,
+  // } = useContext(MainContext);
 
   const fetchUserDetails = () => {
     axios
@@ -174,7 +170,6 @@ function App() {
     fetchUserDetails();
     fetchAllPosts();
     fetchALlComments();
-    fetchUpvoteAndDownvote();
   }, []);
 
   const handleDeletePost = (post_id: string) => {
@@ -191,13 +186,6 @@ function App() {
       });
   };
 
-  const handleShowComments = (index: number, post_id: number) => {
-    setShowComments(!showComments);
-    console.log(index);
-    setPostIndex(index);
-    setPostID(post_id);
-  };
-
   const handleShowUpdate = (post_id: number) => {
     setShowUpdateForm(!showUpdateForm);
     setPostID(post_id);
@@ -211,11 +199,13 @@ function App() {
       .then((res) => {
         console.log(res.data);
 
+        setProjectName(res.data[0].project_name);
+        setProjectPrice(res.data[0].starting_price);
+        setContactEmailPhone(res.data[0].email_phone);
+        setLocation(res.data[0].project_location);
+        setClosedUntil(res.data[0].close_until);
         setPost_context(res.data[0].post_context);
         setPost_image(res.data[0].post_image);
-        setIsChecked(res.data[0].post_isForSale === 'True' ? true : false);
-        setPost_location(res.data[0].post_location);
-        setPost_price(res.data[0].post_price);
       });
   };
 
@@ -226,88 +216,17 @@ function App() {
         post_id: postID,
         post_context,
         post_image,
-        post_isForSale: isChecked === true ? 'True' : 'False',
-        post_location,
-        post_price,
+        starting_price: projectPrice,
+        project_location: location,
+        close_until: closedUntil,
+        project_name: projectName,
+        email_phone: contactEmailPhone,
       })
       .then((res) => {
         console.log(res.data);
         setShowUpdateForm(false);
         fetchAllPosts();
         window.location.reload();
-      });
-  };
-
-  const handleComment = (post_id: number, post_user_id: number) => {
-    axios
-      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/comment.php`, {
-        user_id: localStorage.getItem('motor_socmed'),
-        post_id: post_id,
-        comment_content: comment,
-        user_name: user.name,
-        post_user_id,
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchALlComments();
-      });
-  };
-
-  const handleShowMessage = (id: number) => {
-    setShowMessage(!showMessage);
-    setRecepientIDNumber(id);
-    // console.log(showMessage);
-    console.log(id, 'id');
-  };
-
-  const fetchUpvoteAndDownvote = () => {
-    axios
-      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/like.php`)
-      .then((res) => {
-        console.log(res.data, 'upvote and downvote');
-        setPostLike(res.data);
-      });
-  };
-  const handleUpvote = (post_id: number, post_user_id: number) => {
-    axios
-      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/like.php`, {
-        user_id: localStorage.getItem('motor_socmed'),
-        post_id: post_id,
-        type: 'upvote',
-        post_user_id,
-        user_name: user.name,
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchUpvoteAndDownvote();
-      });
-  };
-
-  const handleDownVote = (post_id: number, post_user_id: number) => {
-    axios
-      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/like.php`, {
-        user_id: localStorage.getItem('motor_socmed'),
-        post_id: post_id,
-        type: 'downvote',
-        post_user_id,
-        user_name: user.name,
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchUpvoteAndDownvote();
-      });
-  };
-
-  const handleDeleteComment = (comment_id: string) => {
-    axios
-      .delete(`${import.meta.env.VITE_PROJECT_BIDDING}/comment.php`, {
-        data: {
-          comment_id,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchALlComments();
       });
   };
 
@@ -406,20 +325,47 @@ function App() {
             <div className="flex flex-col items-center justify-center gap-2 my-[2rem] w-[45rem] border-2 min-h-[30rem] h-fit mt-[15rem] bg-white p-4 rounded-md">
               <form onSubmit={handleUpdate}>
                 <div className="flex gap-4">
-                  <img
-                    className="w-[8rem] h-[8rem] object-cover rounded-full"
-                    src={image.length > 0 ? image : Default}
-                    alt="profile"
-                  />
-
                   <div className="w-full">
-                    <Textarea
-                      defaultValue={post_context}
-                      onChange={(e) => setPost_context(e.target.value)}
-                      placeholder="Type your message here."
+                    <h1 className="font-bold">Post Project</h1>
+                    <Input
+                      defaultValue={projectName}
+                      required
+                      onChange={(e) => setProjectName(e.target.value)}
+                      className="my-2"
+                      placeholder="Project name"
                     />
 
                     <Input
+                      defaultValue={projectPrice}
+                      required
+                      onChange={(e) => setProjectPrice(e.target.value)}
+                      className="my-2"
+                      placeholder="starting price"
+                    />
+                    <Input
+                      defaultValue={contactEmailPhone}
+                      required
+                      onChange={(e) => setContactEmailPhone(e.target.value)}
+                      className="my-2"
+                      placeholder="phone or email"
+                    />
+
+                    <Input
+                      defaultValue={location}
+                      required
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="my-2"
+                      placeholder="Location"
+                    />
+                    <Textarea
+                      defaultValue={post_context}
+                      onChange={(e) => setPost_context(e.target.value)}
+                      required
+                      placeholder="Description."
+                    />
+
+                    <Input
+                      // required
                       type="file"
                       accept="image/*"
                       onChange={handleChangeImage}
@@ -427,33 +373,14 @@ function App() {
                       className="my-2 w-[30rem]"
                     />
 
-                    <div className="flex justify-start gap-2 text-start w-[40%] items-center">
-                      <Input
-                        onChange={handleChange}
-                        className="w-[1rem] cursor-pointer"
-                        checked={isChecked}
-                        type="checkbox"
-                      />
-                      <Label>Is for sale?</Label>
-                    </div>
-                    {isChecked && (
-                      <>
-                        <Input
-                          defaultValue={post_location}
-                          onChange={(e) => setPost_location(e.target.value)}
-                          placeholder="Location"
-                          className="my-2 w-[30rem]"
-                          type="text"
-                        />
-                        <Input
-                          defaultValue={post_price}
-                          onChange={(e) => setPost_price(e.target.value)}
-                          placeholder="Price"
-                          className="my-2 w-[30rem]"
-                          type="text"
-                        />
-                      </>
-                    )}
+                    <Label className="text-sm">Closed until:</Label>
+                    <Input
+                      defaultValue={closedUntil}
+                      type="date"
+                      onChange={(e) => setClosedUntil(e.target.value)}
+                      className="my-2"
+                      placeholder="Closed until"
+                    />
                   </div>
                 </div>
                 <div className="w-full flex justify-end gap-4">
@@ -472,7 +399,7 @@ function App() {
                   <img
                     src={post_image}
                     alt="post"
-                    className="w-[30rem] h-[30rem] object-cover rounded-md"
+                    className="w-[5rem] h-[5rem] object-cover rounded-md"
                   />
                 </div>
               )}
