@@ -1,6 +1,5 @@
 import { Button } from './components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import Default from '@/assets/default.png';
 import { Input } from './components/ui/input';
 import { useContext, useState } from 'react';
 import axios from 'axios';
@@ -8,14 +7,10 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './components/Header';
 import { Label } from '@radix-ui/react-label';
-import { MainContext } from './components/context/useMainContext';
 import Sidebar from './components/Sidebar';
-import { IoIosArrowUp } from 'react-icons/io';
-import { IoIosArrowDown } from 'react-icons/io';
+
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import { LuMessagesSquare } from 'react-icons/lu';
 import { CiLocationOn } from 'react-icons/ci';
-import { IoPricetagOutline } from 'react-icons/io5';
 import { TbBallpen } from 'react-icons/tb';
 
 type PostsType = {
@@ -32,37 +27,13 @@ type PostsType = {
   name: string;
 };
 
-type CommentsType = {
-  comment_id: string;
-  user_id: string;
-  post_id: string;
-  comment_content: string;
-  created_at: string;
-
-  name: string;
-  profile_picture: string;
-  email: string;
-};
-
-type LikeType = {
-  like_id: string;
-  user_id: string;
-  post_id: string;
-  type: string;
-};
 function App() {
   const [showBiddingFormInput, setShowBiddingFormInput] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+
   const [post_context, setPost_context] = useState('');
   const [post_image, setPost_image] = useState('');
-  const [post_location, setPost_location] = useState('');
-  const [post_price, setPost_price] = useState('');
 
   const [posts, setPosts] = useState<PostsType[]>([]);
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState<CommentsType[]>([]);
-  const [showComments, setShowComments] = useState(false);
-  const [postIndex, setPostIndex] = useState(0);
 
   const [projectPrice, setProjectPrice] = useState('' as string);
   const [projectName, setProjectName] = useState('' as string);
@@ -86,14 +57,6 @@ function App() {
     profile_picture: '',
     user_id: '',
   });
-  const [postLike, setPostLike] = useState<LikeType[]>([]);
-
-  // const {
-  //   showMessage,
-  //   setShowMessage,
-  //   recepientIDNumber,
-  //   setRecepientIDNumber,
-  // } = useContext(MainContext);
 
   const fetchUserDetails = () => {
     axios
@@ -143,15 +106,6 @@ function App() {
       });
   };
 
-  const fetchALlComments = () => {
-    axios
-      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/comment.php`)
-      .then((res) => {
-        console.log(res.data, 'comments');
-        setComments(res.data);
-      });
-  };
-
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = new FileReader();
     data.readAsDataURL(e.target.files![0]);
@@ -169,7 +123,6 @@ function App() {
   useEffect(() => {
     fetchUserDetails();
     fetchAllPosts();
-    fetchALlComments();
   }, []);
 
   const handleDeletePost = (post_id: string) => {

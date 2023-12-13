@@ -2,16 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Default from '@/assets/default.png';
+import { Button } from '@/components/ui/button';
 
-import Notification from './Notification';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 export default function Header() {
   const [user, setUser] = useState([]);
   const [name, setName] = useState('');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [image, setImage] = useState('');
-
-  const [showNotificationHeader, setShowNotificationHeader] = useState(false);
 
   const fetchUserDetails = () => {
     axios
@@ -41,7 +39,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="fixed top-0 flex justify-between items-center h-[7rem] bg-white w-full p-4 border-b-2">
+    <div className="fixed top-0 flex justify-between items-center h-[7rem] bg-orange-500 w-full p-4 border-b-2 text-white">
       <div className="p-2 ">
         <Link to="/">
           {' '}
@@ -55,13 +53,11 @@ export default function Header() {
 
       <div className="relative">
         <div className="flex gap-5 items-center">
-          <IoIosNotificationsOutline
-            onClick={() => setShowNotificationHeader(!showNotificationHeader)}
-            className="w-[2rem] h-[2rem] mr-2 text-blue-500 cursor-pointer"
-          />
+          <Link to="/profile">
+            <Button className="bg-orange-800">Profile</Button>
+          </Link>
 
           <img
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
             className="rounded-full w-[4rem] h-[4rem] object-cover cursor-pointer"
             src={image.length > 0 ? image : Default}
             alt=""
@@ -69,23 +65,13 @@ export default function Header() {
         </div>
 
         {showProfileMenu && (
-          <div className="absolute border-2 w-[10rem] left-[10rem] flex flex-col justify-center items-center bg-white rounded-md p-2">
-            <Link to="/profile">
-              <p>Profile</p>
-            </Link>
-
+          <div className="absolute border-2 w-[20rem] left-[20rem] flex flex-col justify-center items-center bg-white rounded-md p-2">
             <p className="cursor-pointer" onClick={handleLogout}>
               Logout
             </p>
           </div>
         )}
       </div>
-
-      {showNotificationHeader && (
-        <div className="absolute mt-[2rem] w-[30rem] border-2 right-20 top-24 rounded-lg overflow-hidden">
-          <Notification />
-        </div>
-      )}
     </div>
   );
 }

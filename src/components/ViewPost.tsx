@@ -40,6 +40,7 @@ type BiddingTimelineType = {
   bidding_price: string;
   created_at: string;
   name: string;
+  bidding_id: string;
 };
 
 export default function ViewPost() {
@@ -76,8 +77,17 @@ export default function ViewPost() {
   const [biddingTimeline, setBiddingTimeline] = useState<BiddingTimelineType[]>(
     [],
   );
+  const [deal, setDeal] = useState({
+    deal_id: '',
+    deal_name: '',
+    deal_total_price: '',
+    bidding_id: '',
+    post_id: '',
+    created_at: '',
+  });
+  const [showDeal, setShowDeal] = useState(false);
 
-  const { id } = useParams();
+  const { id } = useParams() as unknown as { id: number };
 
   const fetchUserDetails = () => {
     axios
@@ -143,6 +153,7 @@ export default function ViewPost() {
     fetchUserDetails();
     fetchPostDetails();
     fetchBiddingTimeline();
+    fetchDeal();
   }, []);
 
   const handleLogout = () => {
@@ -161,35 +172,73 @@ export default function ViewPost() {
         window.location.reload();
       });
   };
+
+  const fetchDeal = () => {
+    axios
+      .get(`${import.meta.env.VITE_PROJECT_BIDDING}/deal.php`, {
+        params: {
+          post_id: id,
+        },
+      })
+      .then((res: any) => {
+        if (res.data.length > 0) {
+          setShowDeal(true);
+          console.log(res.data, 'deal');
+          setDeal(res.data[0]);
+        }
+      });
+  };
+
+  const handleDeal = (
+    post_id: number,
+    deal_name: string,
+    deal_total: string,
+    bid_id: string,
+  ) => {
+    console.log(post_id, deal_name, deal_total, bid_id);
+
+    axios
+      .post(`${import.meta.env.VITE_PROJECT_BIDDING}/deal.php`, {
+        post_id: post_id,
+        deal_name: deal_name,
+        deal_total_price: deal_total,
+        bidding_id: bid_id,
+      })
+      .then((res: any) => {
+        console.log(res.data);
+        window.location.reload();
+        fetchDeal();
+      });
+  };
   return (
     <div className="flex justify-center flex-col items-center relative">
       <div className=" w-full flex justify-center">
         <Header />
-        <div className="flex flex-col h-[80%] justify-between mt-[10rem] fixed left-0 p-5 w-[15rem] z-40 bg-white rounded-lg border-2">
+        <div className="flex flex-col h-[80%] justify-between mt-[10rem] fixed left-0 p-5 w-[15rem] z-40 bg-orange-500 ml-2 text-white rounded-lg border-2">
           <div>
             <div className="flex items-center my-4">
               <div>
-                <h1 className="font-bold text-2xl cursor-pointer hover:text-blue-500 ">
+                <h1 className="font-bold text-2xl cursor-pointer hover:text-orange-800 ">
                   {user.name}
                 </h1>
                 <p>{user.email}</p>
               </div>
             </div>
             <Link to={`/`}>
-              <h1 className="w-full mb-2 cursor-pointer hover:text-blue-500 font-bold flex py-3">
+              <h1 className="w-full mb-2 cursor-pointer hover:text-orange-800 font-bold flex py-3">
                 <FaHome className="w-[1.5rem] h-[1.5rem] mr-2" /> Home
               </h1>
             </Link>
 
             <Link to={`/`}>
-              <h1 className="w-full cursor-pointer hover:text-blue-500 font-bold flex py-3">
+              <h1 className="w-full cursor-pointer hover:text-orange-800 font-bold flex py-3">
                 <MdEditNote className="w-[1.5rem] h-[1.5rem] mr-2" /> Post
                 Project
               </h1>
             </Link>
 
             <Link to={`/post/yourpost/${user_id}`}>
-              <h1 className="w-full mt-2 cursor-pointer hover:text-blue-500 font-bold flex py-5">
+              <h1 className="w-full mt-2 cursor-pointer hover:text-orange-800 font-bold flex py-5">
                 <MdOutlineNoteAlt className="w-[1.5rem] h-[1.5rem] mr-2" /> Your
                 Posts
               </h1>
@@ -199,7 +248,7 @@ export default function ViewPost() {
           <div className="w-full block">
             <h1
               onClick={handleLogout}
-              className="w-full cursor-pointer hover:text-blue-500 font-bold flex py-5d"
+              className="w-full cursor-pointer hover:text-orange-800 font-bold flex py-5d"
             >
               <CiLogout className="w-[1.5rem] h-[1.5rem] mr-2" /> Logout
             </h1>
@@ -212,7 +261,7 @@ export default function ViewPost() {
           <div className="flex items-center justify-between">
             <h1 className="font-bold text-2xl">Project Details</h1>
             <div className="flex gap-4">
-              <h1 className="font-bold border-b-4 border-blue-500">
+              <h1 className="font-bold border-b-4 border-orange-500">
                 Status: {biddingDetails.status}
               </h1>
 
@@ -228,6 +277,14 @@ export default function ViewPost() {
               </Popover>
             </div>
           </div>
+
+          {biddingDetails.post_image.length > 0 && (
+            <img
+              className="w-[20rem] h-[20rem] mt-[2rem] object-cover"
+              src={biddingDetails.post_image}
+              alt=""
+            />
+          )}
 
           <Label className="block mt-[2rem] font-bold">Bidder Name:</Label>
           <h1>{biddingDetails.name}</h1>
@@ -245,17 +302,23 @@ export default function ViewPost() {
 
           <p>{biddingDetails.close_until}</p>
 
-          <span className="w-fit text-white border-2 block p-2 bg-blue-500 rounded-md mt-[2rem]">
+          <span className="w-fit text-white border-2 block p-2 bg-orange-500 rounded-md mt-[2rem]">
             <Label className="block font-bold">Starting Price:</Label>
             <p className="font-bold">{biddingDetails.starting_price} PHP</p>
           </span>
         </div>
 
         <div className="flex w-[35rem] mt-[10rem] p-2 flex-col">
-          <div className="my-2">
-            <h1 className="font-bold text-lg">Deal to: Reydel Ocon</h1>
-          </div>
-          <h1 className="bg-blue-500 p-2 rounded-md text-white font-bold text-2xl mb-[2rem]">
+          {showDeal && (
+            <div className="flex w-full flex-col bg-orange-500 text-white p-2 rounded-md mb-[2rem]">
+              <h1 className="text-2xl font-bold">
+                Deal to {deal.deal_name} worth {deal.deal_total_price}
+              </h1>
+              <p>{deal.created_at}</p>
+            </div>
+          )}
+
+          <h1 className="border-b-4 border-orange-500 p-2 rounded-md font-bold text-orange-600 text-2xl mb-[2rem]">
             Current Price: PHP{' '}
             {biddingTimeline.reduce(
               (acc, price) => Number(acc) + Number(price.bidding_price),
@@ -283,7 +346,7 @@ export default function ViewPost() {
                     Number(biddingDetails.post_id),
                   )
                 }
-                className="bg-blue-500 text-white px-5 py-2 rounded-md ml-[1rem]"
+                className="bg-orange-500 text-white px-5 py-2 rounded-md ml-[1rem]"
               >
                 Bid
               </Button>
@@ -300,7 +363,7 @@ export default function ViewPost() {
                 )
                 .map((bidding, index) => (
                   <div className="flex w-full items-center gap-2" key={index}>
-                    <div className="flex w-full flex-col bg-blue-500 text-white p-2 rounded-md mb-1">
+                    <div className="flex w-full flex-col bg-orange-500 text-white p-2 rounded-md mb-1">
                       <div className="flex justify-between items-center">
                         <div>
                           <h1 className="font-bold">{bidding.name}</h1>
@@ -311,7 +374,25 @@ export default function ViewPost() {
                       <p>{bidding.created_at}</p>
                     </div>
 
-                    <Button>Deal </Button>
+                    <Button
+                      disabled={
+                        biddingDetails.status === 'Closed' ? true : false
+                      }
+                      onClick={() =>
+                        handleDeal(
+                          id,
+                          bidding.name,
+                          biddingTimeline.reduce(
+                            (acc, price) =>
+                              Number(acc) + Number(price.bidding_price),
+                            Number(biddingDetails.starting_price),
+                          ) as unknown as string,
+                          bidding.bidding_id,
+                        )
+                      }
+                    >
+                      Deal{' '}
+                    </Button>
                   </div>
                 ))}
             </div>
