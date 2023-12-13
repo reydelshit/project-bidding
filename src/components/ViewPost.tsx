@@ -14,6 +14,12 @@ import { Label } from '@/components/ui/label';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+
 type PostsType = {
   post_id: string;
   user_id: string;
@@ -26,6 +32,7 @@ type PostsType = {
   email_phone: string;
   created_at: string;
   name: string;
+  status: string;
 };
 
 type BiddingTimelineType = {
@@ -49,6 +56,7 @@ export default function ViewPost() {
     email_phone: '',
     created_at: '',
     name: '',
+    status: '',
   } as PostsType);
   const user_id = localStorage.getItem('motor_socmed') as string;
   const [image, setImage] = useState('' as string);
@@ -141,6 +149,18 @@ export default function ViewPost() {
     localStorage.removeItem('motor_socmed');
     window.location.href = '/login';
   };
+
+  const setPostStatus = () => {
+    axios
+      .put(`${import.meta.env.VITE_PROJECT_BIDDING}/status.php`, {
+        post_id: id,
+        status: 'Closed',
+      })
+      .then((res: any) => {
+        console.log(res.data);
+        window.location.reload();
+      });
+  };
   return (
     <div className="flex justify-center flex-col items-center relative">
       <div className=" w-full flex justify-center">
@@ -187,9 +207,25 @@ export default function ViewPost() {
         </div>
       </div>
 
-      <div className="flex w-[80%] ml-[15rem] justify-between gap-2">
+      <div className="flex w-[80%] ml-[15rem] justify-between gap-10">
         <div className="w-[70%] mt-[10rem] ">
-          <h1 className="font-bold text-2xl">Project Details</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="font-bold text-2xl">Project Details</h1>
+            <div className="flex gap-4">
+              <h1 className="font-bold border-b-4 border-blue-500">
+                Status: {biddingDetails.status}
+              </h1>
+
+              <Popover>
+                <PopoverTrigger className="font-bold">⋮</PopoverTrigger>
+                <PopoverContent className="w-fit">
+                  <a onClick={setPostStatus} className="cursor-pointer">
+                    Close
+                  </a>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
 
           <Label className="block mt-[2rem] font-bold">Bidder Name:</Label>
           <h1>{biddingDetails.name}</h1>
@@ -214,6 +250,9 @@ export default function ViewPost() {
         </div>
 
         <div className="flex w-[35rem] mt-[10rem] p-2 flex-col">
+          <div className="my-2">
+            <h1 className="font-bold text-lg">Deal to: Reydel Ocon</h1>
+          </div>
           <h1 className="bg-blue-500 p-2 rounded-md text-white font-bold text-2xl mb-[2rem]">
             Current Price: PHP{' '}
             {biddingTimeline.reduce(

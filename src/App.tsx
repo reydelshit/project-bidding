@@ -429,12 +429,12 @@ function App() {
                               onClick={() =>
                                 handleShowUpdate(parseInt(post.post_id))
                               }
-                              className="w-[1.5rem] h-[1.5rem]"
+                              className="w-[1.5rem] h-[1.5rem] cursor-pointer"
                             />
 
                             <RiDeleteBin5Line
                               onClick={() => handleDeletePost(post.post_id)}
-                              className="w-[1.5rem] h-[1.5rem]"
+                              className="w-[1.5rem] h-[1.5rem] cursor-pointer"
                             />
                           </div>
                         )}
