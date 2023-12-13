@@ -1,12 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
 import Default from '@/assets/default.png';
-import { MainContext } from './context/useMainContext';
-import Message from './Message';
+
 import Notification from './Notification';
-import { LuMessagesSquare } from 'react-icons/lu';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 export default function Header() {
   const [user, setUser] = useState([]);
@@ -14,8 +11,6 @@ export default function Header() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [image, setImage] = useState('');
 
-  // const { showMessage, setShowMessage } = useContext(MainContext);
-  const [showMessageHeader, setShowMessageHeader] = useState(false);
   const [showNotificationHeader, setShowNotificationHeader] = useState(false);
 
   const fetchUserDetails = () => {
@@ -60,15 +55,11 @@ export default function Header() {
 
       <div className="relative">
         <div className="flex gap-5 items-center">
-          <Button
+          <IoIosNotificationsOutline
             onClick={() => setShowNotificationHeader(!showNotificationHeader)}
-          >
-            <IoIosNotificationsOutline className="w-[1.5rem] h-[1.5rem] mr-2" />
-            Notification
-          </Button>
-          <Button onClick={() => setShowMessageHeader(!showMessageHeader)}>
-            <LuMessagesSquare className="w-[1.5rem] h-[1.5rem] mr-2" /> Message
-          </Button>
+            className="w-[2rem] h-[2rem] mr-2 text-blue-500 cursor-pointer"
+          />
+
           <img
             onClick={() => setShowProfileMenu(!showProfileMenu)}
             className="rounded-full w-[4rem] h-[4rem] object-cover cursor-pointer"
@@ -89,12 +80,6 @@ export default function Header() {
           </div>
         )}
       </div>
-
-      {showMessageHeader && (
-        <div className="absolute mt-[2rem] w-[30rem] border-2 right-20 top-24 rounded-lg overflow-hidden">
-          <Message />
-        </div>
-      )}
 
       {showNotificationHeader && (
         <div className="absolute mt-[2rem] w-[30rem] border-2 right-20 top-24 rounded-lg overflow-hidden">

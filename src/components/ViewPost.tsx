@@ -154,7 +154,7 @@ export default function ViewPost() {
     axios
       .put(`${import.meta.env.VITE_PROJECT_BIDDING}/status.php`, {
         post_id: id,
-        status: 'Closed',
+        status: biddingDetails.status === 'Active' ? 'Closed' : 'Active',
       })
       .then((res: any) => {
         console.log(res.data);
@@ -220,7 +220,9 @@ export default function ViewPost() {
                 <PopoverTrigger className="font-bold">⋮</PopoverTrigger>
                 <PopoverContent className="w-fit">
                   <a onClick={setPostStatus} className="cursor-pointer">
-                    Close
+                    {biddingDetails.status === 'Active'
+                      ? 'Close Bidding'
+                      : 'Open Bidding'}
                   </a>
                 </PopoverContent>
               </Popover>
