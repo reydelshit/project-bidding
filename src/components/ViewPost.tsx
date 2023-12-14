@@ -339,7 +339,7 @@ export default function ViewPost() {
                 placeholder="Your Bid"
               />
               <Button
-                disabled={bidding.length > 0 ? false : true}
+                disabled={biddingDetails.status === 'Closed' ? true : false}
                 onClick={() =>
                   handleBidding(
                     biddingDetails.starting_price,
