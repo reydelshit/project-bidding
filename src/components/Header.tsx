@@ -15,7 +15,7 @@ export default function Header() {
     axios
       .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
-          user_id: localStorage.getItem('motor_socmed'),
+          user_id: localStorage.getItem('bidding'),
         },
       })
       .then((res) => {
@@ -30,7 +30,7 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('motor_socmed');
+    localStorage.removeItem('bidding');
     window.location.href = '/login';
   };
 

@@ -42,7 +42,7 @@ function YourPosts() {
   const [location, setLocation] = useState('' as string);
   const [closedUntil, setClosedUntil] = useState('' as string);
 
-  const user_id = localStorage.getItem('motor_socmed') as string;
+  const user_id = localStorage.getItem('bidding') as string;
 
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [postID, setPostID] = useState(0);
@@ -62,7 +62,7 @@ function YourPosts() {
     axios
       .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
-          user_id: localStorage.getItem('motor_socmed'),
+          user_id: localStorage.getItem('bidding'),
         },
       })
       .then((res) => {
@@ -77,7 +77,7 @@ function YourPosts() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('motor_socmed');
+    localStorage.removeItem('bidding');
     window.location.href = '/login';
   };
 
@@ -118,7 +118,7 @@ function YourPosts() {
     axios
       .get(`${import.meta.env.VITE_PROJECT_BIDDING}/post.php`, {
         params: {
-          user_id: localStorage.getItem('motor_socmed'),
+          user_id: localStorage.getItem('bidding'),
         },
       })
       .then((res) => {

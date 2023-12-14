@@ -14,7 +14,7 @@ type MessageType = {
 
 export default function Message() {
   const [message, setMessage] = useState<MessageType[]>([]);
-  const userId = Number(localStorage.getItem('motor_socmed'));
+  const userId = Number(localStorage.getItem('bidding'));
 
   const { setRecepientIDNumber, showMessage, setShowMessage } =
     useContext(MainContext);

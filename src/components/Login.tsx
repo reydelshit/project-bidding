@@ -24,7 +24,7 @@ export default function Login() {
       .then((res) => {
         if (res.status === 200) {
           console.log('success');
-          localStorage.setItem('motor_socmed', res.data[0].user_id);
+          localStorage.setItem('bidding', res.data[0].user_id);
 
           window.location.href = '/';
         }

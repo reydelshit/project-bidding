@@ -34,7 +34,7 @@ export default function Profile() {
     axios
       .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
-          user_id: localStorage.getItem('motor_socmed'),
+          user_id: localStorage.getItem('bidding'),
         },
       })
       .then((res) => {
@@ -55,7 +55,7 @@ export default function Profile() {
       .put(`${import.meta.env.VITE_PROJECT_BIDDING}/register.php`, {
         ...user,
         profile_picture: image,
-        user_id: localStorage.getItem('motor_socmed'),
+        user_id: localStorage.getItem('bidding'),
       })
       .then((res) => {
         console.log(res.data);

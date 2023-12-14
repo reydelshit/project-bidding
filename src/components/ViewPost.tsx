@@ -59,7 +59,7 @@ export default function ViewPost() {
     name: '',
     status: '',
   } as PostsType);
-  const user_id = localStorage.getItem('motor_socmed') as string;
+  const user_id = localStorage.getItem('bidding') as string;
   const [image, setImage] = useState('' as string);
   const [user, setUser] = useState({
     address: '',
@@ -93,7 +93,7 @@ export default function ViewPost() {
     axios
       .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
-          user_id: localStorage.getItem('motor_socmed'),
+          user_id: localStorage.getItem('bidding'),
         },
       })
       .then((res) => {
@@ -124,7 +124,7 @@ export default function ViewPost() {
     axios
       .post(`${import.meta.env.VITE_PROJECT_BIDDING}/bidding.php`, {
         post_id: post_id,
-        bidder_id: localStorage.getItem('motor_socmed'),
+        bidder_id: localStorage.getItem('bidding'),
         bidding_price: bidding,
         bidding_comment: comment,
         bidding_current_price: currentPrice,
@@ -157,7 +157,7 @@ export default function ViewPost() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('motor_socmed');
+    localStorage.removeItem('bidding');
     window.location.href = '/login';
   };
 

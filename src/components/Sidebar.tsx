@@ -15,7 +15,7 @@ export default function Sidebar({
   setShowBiddingFormInput: any;
   showBiddingFormInput: boolean;
 }) {
-  const user_id = localStorage.getItem('motor_socmed') as string;
+  const user_id = localStorage.getItem('bidding') as string;
   const [image, setImage] = useState('' as string);
   const [user, setUser] = useState({
     address: '',
@@ -32,7 +32,7 @@ export default function Sidebar({
     axios
       .get(`${import.meta.env.VITE_PROJECT_BIDDING}/user.php`, {
         params: {
-          user_id: localStorage.getItem('motor_socmed'),
+          user_id: localStorage.getItem('bidding'),
         },
       })
       .then((res) => {
@@ -47,7 +47,7 @@ export default function Sidebar({
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('motor_socmed');
+    localStorage.removeItem('bidding');
     window.location.href = '/login';
   };
   return (

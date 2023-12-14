@@ -25,7 +25,7 @@ export default function SendMessage() {
   const [message, setMessage] = useState('');
   const [recepientMessage, setRecepientMessage] = useState<MessageType[]>([]);
 
-  const userId = Number(localStorage.getItem('motor_socmed'));
+  const userId = Number(localStorage.getItem('bidding'));
 
   const getMessageRecepient = () => {
     axios
