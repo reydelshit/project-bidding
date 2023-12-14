@@ -8,7 +8,7 @@ import SendMessage from '../SendMessage';
 export default function Root() {
   const location = useLocation();
 
-  const isLogin = localStorage.getItem('motor_socmed');
+  const isLogin = localStorage.getItem('bidding');
   const [showMessage, setShowMessage] = useState(false);
   const [recepientIDNumber, setRecepientIDNumber] = useState(0);
 
