@@ -57,11 +57,13 @@ export default function Header() {
             <Button className="bg-orange-800">Profile</Button>
           </Link>
 
-          <img
-            className="rounded-full w-[4rem] h-[4rem] object-cover cursor-pointer"
-            src={image.length > 0 ? image : Default}
-            alt=""
-          />
+          {image && (
+            <img
+              className="rounded-full w-[4rem] h-[4rem] object-cover cursor-pointer"
+              src={image.length > 0 ? image : Default}
+              alt=""
+            />
+          )}
         </div>
 
         {showProfileMenu && (

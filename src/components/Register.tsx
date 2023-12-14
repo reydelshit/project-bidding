@@ -24,9 +24,7 @@ export default function Register() {
       .then((res) => {
         console.log(res.data);
 
-        if (res.data.status === 'success') {
-          navigate('/');
-        }
+        navigate('/login');
       });
   };
 
